@@ -10,9 +10,10 @@ class CCTLD_UZ implements WhoisService {
   CCTLD_UZ(Dio dio) {
     this.dio = dio;
   }
-
-  setDomain(String domainName, String domainZone) {
+  @override
+  void setDomain(String domainName, String domainZone) {
     URL = 'https://cctld.uz/whois/?domain=${domainName}&zone=${domainZone}';
+    //print(URL);
   }
 
   //this function just calls whois service and receive response.
@@ -25,9 +26,9 @@ class CCTLD_UZ implements WhoisService {
   bool isEmpty() {
     final data = response?.data;
     if (data.toString().contains('не найден')) {
-      return false;
-    } else {
       return true;
+    } else {
+      return false;
     }
   }
 }
