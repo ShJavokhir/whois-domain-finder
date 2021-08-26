@@ -1,18 +1,25 @@
+import 'dart:convert';
+
 import 'package:cli/whois_service.dart';
 import 'package:dio/dio.dart';
 import 'package:dio/src/response.dart';
 
-class CCTLD_UZ implements WhoisService {
+class ESKIZ_UZ implements WhoisService {
+  static const postURL = "https://my.eskiz.uz/get/whois";
   String URL = "";
   Response? response;
   Dio? dio;
+  String? domainName;
+  String? domainZone;
 
-  CCTLD_UZ(Dio dio) {
+  ESKIZ_UZ(Dio dio) {
     this.dio = dio;
   }
   @override
   void setDomain(String domainName, String domainZone) {
-    URL = 'https://cctld.uz/whois/?domain=${domainName}&zone=${domainZone}';
+    //URL = 'https://cctld.uz/whois/?domain=${domainName}&zone=${domainZone}';
+    this.domainName = domainName;
+    this.domainZone = domainZone;
     //print(URL);
   }
 
@@ -21,9 +28,11 @@ class CCTLD_UZ implements WhoisService {
   Future<void> callService() async {
     //This line of code prevents server of thinking request from bot or crawler.
     makeClientReliable();
-    response = await dio?.get(
-      URL,
-    );
+    var params = {
+      "domain": '${domainName}.${domainZone}',
+      "whois": "true",
+    };
+    response = await dio?.post(postURL, data: jsonEncode(params));
   }
 
   @override

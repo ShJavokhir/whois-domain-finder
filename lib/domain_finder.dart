@@ -1,5 +1,6 @@
 import 'package:cli/whois_service.dart';
 import 'package:cli/whois_services/cctld_uz.dart';
+import 'package:cli/whois_services/eskiz_uz.dart';
 import 'package:dio/dio.dart';
 
 class DomainFinder {
@@ -59,6 +60,8 @@ class DomainFinder {
       required Dio dio}) {
     if (serviceName == 'CCTLD_UZ') {
       whoisService = CCTLD_UZ(dio);
+    } else if (serviceName == "ESKIZ_UZ") {
+      whoisService = ESKIZ_UZ(dio);
     }
 
     if (whoisService == null) {
@@ -71,31 +74,43 @@ class DomainFinder {
         oldString.substring(index + 1);
   }
 
-  void generateDomainNames(String sb, int n) async {
+  Future<void> generateDomainNames(String sb, int n) async {
     //await Future.delayed(Duration(milliseconds: 1000));
     if (n == sb.length) {
       //print(sb.toString());
 
-      print("request");
+      //print("request");
       whoisService?.setDomain(sb.toString(), domainZone);
-      await whoisService?.callService();
+      try {
+        await whoisService?.callService();
+      } catch (e) {
+        print("Error: " + e.toString());
+        return;
+      }
+
       if (whoisService!.isEmpty()) {
         print(sb.toString());
       }
 
       return;
     }
-    for (String letter in numbers) {
+    for (String letter in alphabet) {
       //sb.setCharAt(n, letter);
       //await Future.delayed(Duration(milliseconds: 1000));
       sb = replaceCharAt(sb, n, letter);
-      generateDomainNames(sb, n + 1);
+      await generateDomainNames(sb, n + 1);
     }
+  }
+
+  String _getStringWithLength(int length) {
+    String result = '';
+    for (int i = 0; i < length; i++) result += ' ';
+    return result;
   }
 
   void startSearch() {
     print("Starting...\nHere are domains that you can buy right now:");
-    String sb = "  ";
+    String sb = _getStringWithLength(length);
     generateDomainNames(sb, 0);
   }
 }
