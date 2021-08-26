@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cli/whois_service.dart';
 import 'package:cli/whois_services/cctld_uz.dart';
 import 'package:cli/whois_services/eskiz_uz.dart';
@@ -10,6 +12,8 @@ class DomainFinder {
   final String domainZone;
   //length of domain
   final int length;
+  //Number of domains checked out
+  int counter = 0;
   static const List<String> alphabet = [
     'a',
     'b',
@@ -78,8 +82,10 @@ class DomainFinder {
     //await Future.delayed(Duration(milliseconds: 1000));
     if (n == sb.length) {
       //print(sb.toString());
-
+      counter++;
+      stdout.write('\r' + counter.toString() + " ");
       //print("request");
+
       whoisService?.setDomain(sb.toString(), domainZone);
       try {
         await whoisService?.callService();
@@ -89,7 +95,7 @@ class DomainFinder {
       }
 
       if (whoisService!.isEmpty()) {
-        print(sb.toString());
+        stdout.write(sb.toString() + '\n');
       }
 
       return;

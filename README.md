@@ -16,8 +16,9 @@
 - 1)Install dart
 - 2)Download all the code.
 - 3)Open terminal (command prompt in windows) and move project folder. 
-- 4)Run "dart run" command
-
+- 4)Run `dart run cli [domain zone] [length of domains] [whois service name]` command
+- 5)Example command: `dart run cli uz 4 ESKIZ_UZ` . This command searches all the `uz` domains with length of 4 from `ESKIZ_UZ` whois service
+- Available whois service names right now: `CCTLD_UZ`, `ESKIZ_UZ`
 <img src="https://yata-apix-a9caea66-ad78-425f-aa08-e292558ebb65.lss.locawebcorp.com.br/b7c7dbff38ae4f419c94ce8d2254b9d9.png"> 
 
 <h1 align="center">
