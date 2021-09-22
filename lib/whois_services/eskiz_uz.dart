@@ -39,7 +39,8 @@ class ESKIZ_UZ implements WhoisService {
   bool isEmpty() {
     final data = response?.data;
     //we assume that website's language is russian
-    if (data.toString().contains('не найден')) {
+    if (data.toString().contains('не найден') ||
+        data.toString().contains('Redemption')) {
       return true;
     } else {
       return false;

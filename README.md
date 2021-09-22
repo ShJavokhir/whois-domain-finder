@@ -1,5 +1,5 @@
 <h1 align="center"> 🤩 Domain Finder 🤩 </h1>
-<h3 align="center">By Javokhir Dev</h3>
+<h3 align="center">Created by ShJavokhir to use OOP in real world apps</h3>
 
 <img src="https://yata-apix-a9caea66-ad78-425f-aa08-e292558ebb65.lss.locawebcorp.com.br/b7c7dbff38ae4f419c94ce8d2254b9d9.png"> 
 
@@ -19,6 +19,9 @@
 - 4)Run `dart run cli [domain zone] [length of domains] [whois service name]` command
 - 5)Example command: `dart run cli uz 4 ESKIZ_UZ` . This command searches all the `uz` domains with length of 4 from `ESKIZ_UZ` whois service
 - Available whois service names right now: `CCTLD_UZ`, `ESKIZ_UZ`
+
+### 🏃‍♂️ Useful information about this project:
+ This project uses `Web Scraping` technique to find domains. But some whois services does not allow this. For example CCTLD_UZ service allows you to make only ~30 requests in hour. So you may want to use proxies to bypass this. 
 <img src="https://yata-apix-a9caea66-ad78-425f-aa08-e292558ebb65.lss.locawebcorp.com.br/b7c7dbff38ae4f419c94ce8d2254b9d9.png"> 
 
 <h1 align="center">
