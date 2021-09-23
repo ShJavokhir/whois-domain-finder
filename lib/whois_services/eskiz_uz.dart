@@ -45,17 +45,18 @@ class ESKIZ_UZ implements WhoisService {
       return DomainStatusWithInfo(
           domainStatus: DomainStatus.EXPIRED, info: "Free to buy");
     } else if (data.toString().contains('Redemption')) {
-      final start = '"dExpired": "';
-      final end = '",';
+      final start = 'dExpired';
 
       final startIndex = data.toString().indexOf(start);
-      final endIndex = data.toString().indexOf(end);
+      final endIndex = startIndex + start.length + 14;
+      //print(data.toString());
+      //print('${startIndex.toString()} | ${endIndex.toString()}  |  $start');
       final expireDate =
-          data.toString().substring(startIndex + start.length, endIndex).trim();
+          data.toString().substring(startIndex + start.length, endIndex);
 
       return DomainStatusWithInfo(
           domainStatus: DomainStatus.EXPIRED,
-          info: "Will be free after: " + expireDate);
+          info: "Redemption period: " + expireDate);
     }
 
     return DomainStatusWithInfo(
