@@ -1,3 +1,4 @@
+/*
 import 'package:cli/whois_service.dart';
 import 'package:dio/dio.dart';
 import 'package:dio/src/response.dart';
@@ -45,3 +46,4 @@ class CCTLD_UZ implements WhoisService {
         '';
   }
 }
+*/

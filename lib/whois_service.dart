@@ -1,7 +1,7 @@
-import 'package:dio/dio.dart';
+import 'package:cli/models/domain_status_with_info.dart';
 
 abstract class WhoisService {
   Future<void> callService();
-  bool isEmpty();
+  DomainStatusWithInfo getDomainStatus();
   void setDomain(String domainName, String domainZone);
 }

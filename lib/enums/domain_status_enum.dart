@@ -1,0 +1,1 @@
+enum DomainStatus { ACTIVE, REDEMPTION_PERIOD, EXPIRED }

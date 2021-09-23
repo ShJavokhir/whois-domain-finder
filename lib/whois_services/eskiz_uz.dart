@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:cli/enums/domain_status_enum.dart';
+import 'package:cli/models/domain_status_with_info.dart';
 import 'package:cli/whois_service.dart';
 import 'package:dio/dio.dart';
 import 'package:dio/src/response.dart';
@@ -36,15 +38,28 @@ class ESKIZ_UZ implements WhoisService {
   }
 
   @override
-  bool isEmpty() {
-    final data = response?.data;
+  DomainStatusWithInfo getDomainStatus() {
+    final data = response?.data.toString();
     //we assume that website's language is russian
-    if (data.toString().contains('не найден') ||
-        data.toString().contains('Redemption')) {
-      return true;
-    } else {
-      return false;
+    if (data.toString().contains('не найден')) {
+      return DomainStatusWithInfo(
+          domainStatus: DomainStatus.EXPIRED, info: "Free to buy");
+    } else if (data.toString().contains('Redemption')) {
+      final start = '"dExpired": "';
+      final end = '",';
+
+      final startIndex = data.toString().indexOf(start);
+      final endIndex = data.toString().indexOf(end);
+      final expireDate =
+          data.toString().substring(startIndex + start.length, endIndex).trim();
+
+      return DomainStatusWithInfo(
+          domainStatus: DomainStatus.EXPIRED,
+          info: "Will be free after: " + expireDate);
     }
+
+    return DomainStatusWithInfo(
+        domainStatus: DomainStatus.ACTIVE, info: "Domain is Active ;(");
   }
 
   void makeClientReliable() {

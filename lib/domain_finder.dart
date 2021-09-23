@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:cli/enums/domain_status_enum.dart';
+import 'package:cli/models/domain_status_with_info.dart';
 import 'package:cli/whois_service.dart';
 import 'package:cli/whois_services/cctld_uz.dart';
 import 'package:cli/whois_services/eskiz_uz.dart';
@@ -63,7 +65,7 @@ class DomainFinder {
       required this.length,
       required Dio dio}) {
     if (serviceName == 'CCTLD_UZ') {
-      whoisService = CCTLD_UZ(dio);
+      //whoisService = CCTLD_UZ(dio);
     } else if (serviceName == "ESKIZ_UZ") {
       whoisService = ESKIZ_UZ(dio);
     }
@@ -94,8 +96,16 @@ class DomainFinder {
         return;
       }
 
-      if (whoisService!.isEmpty()) {
-        stdout.write(sb.toString() + '\n');
+      final domainStatus = whoisService?.getDomainStatus();
+
+      if (domainStatus?.domainStatus == DomainStatus.EXPIRED) {
+        final info = domainStatus?.info ?? "NULL";
+        stdout.write(sb.toString() + ' | ' + info + '\n');
+      }
+
+      if (domainStatus?.domainStatus == DomainStatus.REDEMPTION_PERIOD) {
+        final info = domainStatus?.info ?? "NULL";
+        stdout.write(sb.toString() + ' | ' + info + '\n');
       }
 
       return;
