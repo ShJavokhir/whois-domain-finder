@@ -17,7 +17,7 @@ class FileDatabase implements DomainRepository {
       if(!domains.contains(domainName))
         await _localFile.writeAsString('$domainName\n', mode:FileMode.append);
     }catch(e){
-      Logger.logError(e.toString());
+      Logger.logError("At function addDomain()\n" + e.toString());
       /*if(e.toString().contains('Cannot open file')){
         //FileMode.append does not work when file were not created, so we gonna create file and write it here without FileMode.append
         await _localFile.writeAsString('$domainName\n');
@@ -42,7 +42,7 @@ class FileDatabase implements DomainRepository {
     try{
       return await _localFile.readAsLines();
     }catch(e){
-      Logger.logError(e.toString());
+      Logger.logError("At function getDomains()\n" + e.toString());
     }
     return [];
   }

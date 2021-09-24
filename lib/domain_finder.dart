@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cli/communication/communication.dart';
+import 'package:cli/database/domain_repository.dart';
 import 'package:cli/enums/domain_status_enum.dart';
 import 'package:cli/models/domain_status_with_info.dart';
 import 'package:cli/models/message.dart';
@@ -59,7 +60,7 @@ class DomainFinder {
     '0'
   ];
   final Communication? communication;
-
+  final DomainRepository domainRepository;
   WhoisService? whoisService;
 
   DomainFinder(
@@ -67,7 +68,8 @@ class DomainFinder {
       required this.domainZone,
       required this.length,
       required Dio dio,
-      this.communication}) {
+      this.communication,
+      required this.domainRepository}) {
     if (serviceName == 'CCTLD_UZ') {
       //whoisService = CCTLD_UZ(dio);
     } else if (serviceName == "ESKIZ_UZ") {
@@ -113,6 +115,7 @@ class DomainFinder {
       if (domainStatus?.domainStatus == DomainStatus.REDEMPTION_PERIOD) {
         final info = domainStatus?.info ?? "NULL";
         stdout.write(sb.toString() + ' | ' + info + '\n');
+        await domainRepository.addDomain(sb.toString());
         //await communication
         //    ?.sendMessage(Message(message: sb.toString() + ' | ' + info));
       }
