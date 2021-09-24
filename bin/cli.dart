@@ -38,6 +38,7 @@ void main(List<String> arguments) async {
       cm = Telegram.withParameters(chatId: communicationReceiver, dio: dio);
     }
   }
+  var onlyFromDatabase = arguments[5] ;
 
   final domainFinder = DomainFinder(
       serviceName: domainService,
@@ -45,14 +46,19 @@ void main(List<String> arguments) async {
       length: int.parse(domainLength),
       dio: dio,
       communication: cm,
-      domainRepository: domainRepository
+      domainRepository: domainRepository,
   );
+  if(onlyFromDatabase == "true"){
+    domainFinder.searchFromDatabase();
+  }else{
+    domainFinder.startSearch();
+  }
 
   // var domainFinder = DomainFinder(
   //    serviceName: 'CCTLD_UZ', domainZone: 'uz', length: 4, dio: dio);
   //var domainFinder = DomainFinder(
   //    serviceName: 'ESKIZ_UZ', domainZone: 'uz', length: 4, dio: dio);
-  domainFinder.startSearch();
+
 }
 
 ArgParser _configureParser(){
