@@ -1,7 +1,9 @@
 import 'dart:io';
 
+import 'package:cli/communication/communication.dart';
 import 'package:cli/enums/domain_status_enum.dart';
 import 'package:cli/models/domain_status_with_info.dart';
+import 'package:cli/models/message.dart';
 import 'package:cli/whois_service.dart';
 import 'package:cli/whois_services/cctld_uz.dart';
 import 'package:cli/whois_services/eskiz_uz.dart';
@@ -56,6 +58,7 @@ class DomainFinder {
     '9',
     '0'
   ];
+  final Communication? communication;
 
   WhoisService? whoisService;
 
@@ -63,7 +66,8 @@ class DomainFinder {
       {required this.serviceName,
       required this.domainZone,
       required this.length,
-      required Dio dio}) {
+      required Dio dio,
+      this.communication}) {
     if (serviceName == 'CCTLD_UZ') {
       //whoisService = CCTLD_UZ(dio);
     } else if (serviceName == "ESKIZ_UZ") {
@@ -101,11 +105,16 @@ class DomainFinder {
       if (domainStatus?.domainStatus == DomainStatus.EXPIRED) {
         final info = domainStatus?.info ?? "NULL";
         stdout.write(sb.toString() + ' | ' + info + '\n');
+        //we gonna send message to communication receiver
+        await communication?.sendMessage(
+            Message(message: sb.toString() + '.uz' + ' | ' + info));
       }
 
       if (domainStatus?.domainStatus == DomainStatus.REDEMPTION_PERIOD) {
         final info = domainStatus?.info ?? "NULL";
         stdout.write(sb.toString() + ' | ' + info + '\n');
+        //await communication
+        //    ?.sendMessage(Message(message: sb.toString() + ' | ' + info));
       }
 
       return;

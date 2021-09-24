@@ -55,7 +55,7 @@ class ESKIZ_UZ implements WhoisService {
           data.toString().substring(startIndex + start.length, endIndex);
 
       return DomainStatusWithInfo(
-          domainStatus: DomainStatus.EXPIRED,
+          domainStatus: DomainStatus.REDEMPTION_PERIOD,
           info: "Redemption period: " + expireDate);
     }
 

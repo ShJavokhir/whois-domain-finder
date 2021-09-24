@@ -1,5 +1,6 @@
 import 'package:cli/communication/communication.dart';
 import 'package:cli/config.dart';
+import 'package:cli/logger/logger.dart';
 import 'package:cli/models/message.dart';
 import 'package:dio/dio.dart';
 
@@ -19,6 +20,7 @@ class Telegram implements Communication {
     _dio = dio;
     _botToken = Config.TELEGRAM_BOT_TOKEN;
     this._chatId = chatId;
+    Logger.logSimple("Telegram  parametric constructor called");
   }
 
   set chatId(String chatId) {
@@ -29,5 +31,6 @@ class Telegram implements Communication {
   Future<void> sendMessage(Message message) async {
     await _dio?.get(
         '$ROOT_URL/$_botToken/sendMessage?chat_id=$_chatId&text=$message');
+    Logger.logSimple("Telegram  send message called");
   }
 }

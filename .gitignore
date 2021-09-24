@@ -4,3 +4,4 @@
 .DS_Store
 # Conventional directory for build output.
 build/
+lib/Config.dart
