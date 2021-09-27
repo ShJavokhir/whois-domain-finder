@@ -8,6 +8,7 @@ import 'package:cli/models/message.dart';
 import 'package:cli/whois_service.dart';
 import 'package:cli/whois_services/cctld_uz.dart';
 import 'package:cli/whois_services/eskiz_uz.dart';
+import 'package:cli/whois_services/proname_uz.dart';
 import 'package:dio/dio.dart';
 
 class DomainFinder {
@@ -76,6 +77,8 @@ class DomainFinder {
       //whoisService = CCTLD_UZ(dio);
     } else if (serviceName == "ESKIZ_UZ") {
       whoisService = ESKIZ_UZ(dio);
+    } else if (serviceName == "PRONAME_UZ") {
+      whoisService = PRONAME_UZ(dio);
     }
 
     if (whoisService == null) {
@@ -140,19 +143,20 @@ class DomainFinder {
 
   void startSearch() {
     print("Starting...\nHere are domains that you can buy right now:");
-    if(onlyFromDatabase == 'true') {
+    if (onlyFromDatabase == 'true') {
       print("Domains will be searched from database");
       searchFromDatabase;
     }
-      String sb = _getStringWithLength(length);
-      generateDomainNames(sb, 0);
-    }
+    String sb = _getStringWithLength(length);
+    generateDomainNames(sb, 0);
+  }
 
-  void searchFromDatabase()async{
-    while(2+2 != 5){
+  void searchFromDatabase() async {
+    while (2 + 2 != 5) {
       int i = 0;
       var domains = await domainRepository.getDomains();
-      await Future.forEach(domains, (sb)async {
+      await Future.forEach(domains, (sb) async {
+        await Future.delayed(Duration(seconds: 2));
         whoisService?.setDomain(sb.toString(), domainZone);
         try {
           await whoisService?.callService();
@@ -182,8 +186,6 @@ class DomainFinder {
         i++;
         stdout.write('\r' + i.toString() + " ");
       });
-
     }
-
   }
 }
